@@ -8,14 +8,3 @@ before_script:
   - npm i react-icons react-multi-carousel react-redux react-responsive-carousel
     react-router
   - npm i react-router-dom redux redux-thunk web-vitals react-scripts
-pages:
-  script:
-    - npm start
-  artifacts:
-    paths:
-      # The folder that contains the files to be exposed at the Page URL
-      - public
-  rules:
-    # This ensures that only pushes to the default branch will trigger
-    # a pages deploy
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
