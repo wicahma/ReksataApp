@@ -1,0 +1,18 @@
+.carousel-root {
+    position: relative !important;
+}
+
+.carousel-slider{
+    position: absolute !important;
+    inset: 0;
+    overflow: visible !important;
+}
+
+.control-dots {
+    position: absolute !important;;
+    top: -.2rem;
+    left: 1.7rem;
+    height: max-content;
+    width: max-content  !important;
+}
+

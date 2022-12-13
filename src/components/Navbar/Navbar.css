@@ -1,0 +1,9 @@
+.nav-text::before {
+    content: " ";
+    height: 4.5px;
+    border-radius: 999px;
+    width: 100%;
+    position: absolute;
+    bottom: -.5rem;
+    left: 0;
+}
