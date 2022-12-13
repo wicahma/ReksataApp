@@ -7,9 +7,10 @@ before_script:
     react-helmet-async
   - npm i react-icons react-multi-carousel react-redux react-responsive-carousel
     react-router
-  - npm i react-router-dom redux redux-thunk web-vitals
+  - npm i react-router-dom redux redux-thunk web-vitals react-scripts
 pages:
-  script: []
+  script:
+    - npm start
   artifacts:
     paths:
       # The folder that contains the files to be exposed at the Page URL
