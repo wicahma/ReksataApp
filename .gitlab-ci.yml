@@ -3,12 +3,9 @@
 image: node:16.15.0
 # Functions that should be executed before the build script is run
 before_script:
-  - npm i axios
   - npm i axios daisyui framer-motion react-dom
-    react-helmet-async
-  - npm i react-icons react-multi-carousel react-redux react-responsive-carousel
-    react-router
-  - npm i react-router-dom redux redux-thunk web-vitals react-scripts
+    react-helmet-async react-icons react-multi-carousel react-redux react-responsive-carousel
+    react-router react-router-dom redux redux-thunk web-vitals react-scripts
   - npm i -D tailwindcss postcss autoprefixer @tailwindcss/typography @tailwindcss/forms
 pages:
   stage: deploy
@@ -16,7 +13,7 @@ pages:
     GIT_STRATEGY: none        # Do not clone git repo
   script:
     # Rename the CRA `build` folder to `public`
-    - npm run build
+    - react-scripts build
     - mv build public         
   artifacts:
     paths:
