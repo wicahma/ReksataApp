@@ -11,23 +11,16 @@ before_script:
   - npm i react-router-dom redux redux-thunk web-vitals react-scripts
   - npm i -D tailwindcss postcss autoprefixer @tailwindcss/typography @tailwindcss/forms
 pages:
-  image: alpine:latest
   stage: deploy
   variables:
     GIT_STRATEGY: none        # Do not clone git repo
   script:
     # Rename the CRA `build` folder to `public`
+    - npm run build
     - mv build public         
   artifacts:
     paths:
       - public
-  # script: 
-  # - npm run build
-    
-  # artifacts:
-  #   paths:
-  #     # The folder that contains the files to be exposed at the Page URL
-  #     - public
   rules:
     # This ensures that only pushes to the default branch will trigger
     # a pages deploy
