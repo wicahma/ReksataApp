@@ -7,13 +7,13 @@ before_script:
     react-helmet-async react-icons react-multi-carousel react-redux react-responsive-carousel
     react-router react-router-dom redux redux-thunk web-vitals react-scripts
   - npm i -D tailwindcss postcss autoprefixer @tailwindcss/typography @tailwindcss/forms
+  - react-scripts build
 pages:
   stage: deploy
   variables:
     GIT_STRATEGY: none        # Do not clone git repo
   script:
     # Rename the CRA `build` folder to `public`
-    - react-scripts build
     - mv build public         
   artifacts:
     paths:
