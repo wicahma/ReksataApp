@@ -17,7 +17,7 @@ pages:
   script:
     # Rename the CRA `build` folder to `public`
     - npm install      
-    - npm build
+    - npm run-script build
     - mv build public 
   artifacts:
     paths:
