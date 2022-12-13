@@ -3,11 +3,11 @@ image: node:16.15.0
 # Functions that should be executed before the build script is run
 before_script:
   - npm i axios
-  - npm i axios react@reduxjs/toolkit daisyui framer-motion react-dom
+  - npm i axios daisyui framer-motion react-dom
     react-helmet-async
   - npm i react-icons react-multi-carousel react-redux react-responsive-carousel
     react-router
-  - npm i react-router-dom redux redux-thunk web-vitals react-scripts
+  - npm i react-router-dom redux redux-thunk web-vitals react-scripts react@reduxjs/toolkit
 pages:
   script:
     - npm start
