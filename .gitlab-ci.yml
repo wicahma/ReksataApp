@@ -7,7 +7,7 @@ before_script:
     react-helmet-async
   - npm i react-icons react-multi-carousel react-redux react-responsive-carousel
     react-router
-  - npm i react-router-dom redux redux-thunk web-vitals react-scripts react@reduxjs/toolkit
+  - npm i react-router-dom redux redux-thunk web-vitals react-scripts
 pages:
   script:
     - npm start
