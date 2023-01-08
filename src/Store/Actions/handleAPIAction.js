@@ -6,7 +6,7 @@ export const GET_DATA_FAIL = "GET_DATA_FAIL";
 export const GET_DATA_MENU = "GET_DATA_MENU";
 export const GET_DATA_SETUP = "GET_DATA_SETUP";
 
-const rootPath = "http://localhost:4000";
+const rootPath = "http://localhost:5000";
 
 export const getData = () => ({
   type: GET_DATA,
@@ -22,7 +22,6 @@ export const getDataFail = (error) => ({
   type: GET_DATA_FAIL,
   payload: error,
 });
-
 
 export const getDataMenu = (data) => ({
   type: GET_DATA_MENU,
@@ -40,7 +39,7 @@ export const fetchAPI = (dataPath, func) => {
     axios
       .get(`${rootPath}/${dataPath}`)
       .then((res) => {
-        dispatch(func(res.data.data));
+        dispatch(func(res.data));
       })
       .catch((err) => {
         console.log(err);
@@ -48,5 +47,3 @@ export const fetchAPI = (dataPath, func) => {
       });
   };
 };
-
-

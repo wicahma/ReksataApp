@@ -52,11 +52,11 @@ class Container extends React.Component {
       dataMinuman: minuman,
     });
     // axios
-    //   .get("http://localhost:4000/menus")
+    //   .get(`${process.env.REACT_APP_API_URL}menus`)
     //   .then((res) => {
     //     console.log(res);
-    //     const makanan = [...res.data.data.filter((data) => data.jenis === true)];
-    //     const minuman = [...res.data.data.filter((data) => data.jenis === false)];
+    //     const makanan = [...res.data.filter((data) => data.jenis === true)];
+    //     const minuman = [...res.data.filter((data) => data.jenis === false)];
     //     console.log(minuman);
     //     console.log(makanan);
     //     this.setState({
@@ -68,12 +68,12 @@ class Container extends React.Component {
     //     console.log(err);
     //   });
   };
-  
+
   componentDidMount() {
-    console.log('komponent mount')
-    this.handleInputDataMenu(this.props.dataMenu)
+    console.log("komponent mount");
+    this.handleInputDataMenu(this.props.dataMenu);
   }
-  
+
   render() {
     // console.group("Data Hasil");
     // console.log("Data Makanan", this.state.dataMakanan);

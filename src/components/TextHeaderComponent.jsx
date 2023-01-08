@@ -45,7 +45,7 @@ export const TextHeaderComponent = (props) => {
         </div>
         <div className={`w-full flex ${props.subJudulContPos}`}>
           <m.p
-            className={`text-xl sm:text-2xl ${props.textPos} font-serif mt-2 leading-5 sm:leading-7 sm:mt-5 lg:w-5/12 w-10/12`}
+            className={`text-xl sm:text-2xl ${props.textPos} font-serif mt-2 leading-5 sm:leading-7 sm:mt-5 lg:w-4/6 w-10/12`}
             variants={textContainer}
           >
             {props.subJudul}

@@ -1,12 +1,10 @@
 import { domAnimation, LazyMotion, m } from "framer-motion";
 import React from "react";
 import { Helmet } from "react-helmet-async";
-import { Outlet } from "react-router";
-import BillingOffline from "../../components/Reservasi/BillingOffline";
-import BillingOnline from "../../components/Reservasi/BillingOnline";
+import Konfirmasi from "../../components/Reservasi/Konfirmasi";
 import { TextHeaderComponent } from "../../components/TextHeaderComponent";
 
-export class Bill extends React.Component {
+class Confirmation extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -27,19 +25,21 @@ export class Bill extends React.Component {
           }}
         >
           <Helmet>
-            <title>Reservasi | Billing</title>
+            <title>Reservasi | Confirmation</title>
           </Helmet>
           <TextHeaderComponent
             textPos="text-center"
-            subJudul="Silahkan bayar kebutuhan reservasi anda sesuai dengan yang telah tertera pada kolom dibawah dan sesuaikan dengan metode pembayaran yang anda pilih."
-            judul="Billing"
+            subJudul="Verifikasi data kebutuhan anda apakah sesuai atau belum, anda dapat sekalian untuk memilih metode pembayaran disini."
+            judul="Confirmation"
             subJudulContPos="justify-center"
           />
-          <div className="sm:w-[700px] container mx-auto mt-10">
-            <Outlet />
+          <div className="sm:w-[700px] space-y-3 container mx-auto bg-cultured-500 shadow-xl rounded-xl p-2 md:p-5 mt-10">
+            <Konfirmasi/>
           </div>
         </m.div>
       </LazyMotion>
     );
   }
 }
+
+export default Confirmation;

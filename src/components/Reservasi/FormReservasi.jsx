@@ -6,6 +6,7 @@ import axios from "axios";
 import { TbAlertCircle } from "react-icons/tb";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import Notification from "../Notification/Notification";
+import { Navigate } from "react-router";
 
 class FormReservasi extends React.Component {
   constructor(props) {
@@ -16,9 +17,9 @@ class FormReservasi extends React.Component {
       animateError: false,
       animateFail: false,
       animateSucces: false,
+      redirect: null,
       selectedMenu: [],
       formData: {
-        id: "",
         nama: "",
         nomor: "",
         jumlahOrang: "",
@@ -33,8 +34,6 @@ class FormReservasi extends React.Component {
 
   handleDeleteList = (data) => {
     data.stopPropagation();
-    // console.log("Id", data.target.id);
-    // console.log("all menu", this.state.selectedMenu[data.target.id]);
     const dataNew = this.state.selectedMenu.filter(
       (menu, index) => index != data.target.id
     );
@@ -46,15 +45,47 @@ class FormReservasi extends React.Component {
     );
   };
 
+  componentDidUpdate() {
+    console.log("update baru saja terjadi");
+  }
+
   handleOnChangeMenu = (e) => {
     let value = e.target.value;
     let dataMenu = this.props.dataMenu.find((menu) => menu._id == value);
-    this.setState(
-      {
-        selectedMenu: [...this.state.selectedMenu, dataMenu],
-      },
-      () => console.log(this.state.selectedMenu)
+    const data = this.state.selectedMenu.findIndex(
+      (menu) => menu._id === dataMenu._id
     );
+    console.log("ini adalah datanya", data);
+    if (data !== -1) {
+      console.log("Datanya sebelumnya sudah ada");
+      let menus = [...this.state.selectedMenu];
+      let menu = { ...menus[data] };
+      menu.jumlah++;
+      menus[data] = menu;
+      this.setState(
+        {
+          selectedMenu: menus,
+        },
+        () => console.log(this.state.selectedMenu)
+      );
+    } else {
+      console.log("data dimasukkan", data);
+      this.setState(
+        {
+          selectedMenu: [
+            ...this.state.selectedMenu,
+            {
+              harga: dataMenu.harga,
+              img: dataMenu.img,
+              jumlah: 1,
+              title: dataMenu.title,
+              _id: dataMenu._id,
+            },
+          ],
+        },
+        () => console.log(this.state.selectedMenu)
+      );
+    }
     e.target.value = "";
   };
 
@@ -63,7 +94,7 @@ class FormReservasi extends React.Component {
     let id = e.target.id;
     let newForm = { ...this.state.formData };
     newForm[id] = value;
-    newForm["id"] = `RES-${new Date().getTime().toString()}`;
+    // newForm["id"] = `reks${new Date().getTime().toString()}`;
     this.setState(
       {
         formData: newForm,
@@ -85,36 +116,7 @@ class FormReservasi extends React.Component {
     );
   };
 
-  handleSendMessage = (msg, barista) => {
-    const pesan = `*Ada Reservasi Baru!*
-    ID: ${msg.id},
-    Nama: ${msg.nama},
-    Nomor Telepon: ${msg.nomor},
-    Jumlah Orang: ${msg.jumlahOrang},
-    Tanggal: ${msg.tanggal},
-    Waktu: ${msg.mulaiRes} - ${msg.selesaiRes},
-    Ruangan: ${msg.pilihanRuangan},
-    Opsional: ${msg.opsionalRuangan},
-    `;
-
-    const sendMessage = (nomor) => {
-      axios
-        .post("http://localhost:8000/send", {
-          phone: nomor,
-          message: pesan,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    sendMessage(barista)
-    sendMessage(msg.nomor)
-  };
-
-  handleSendData = (e) => {
+  handleSendDataProps = (e) => {
     let newForm = { ...this.state.formData };
     let menuData = this.state.selectedMenu;
     const non = Object.values(this.state.formData)
@@ -131,7 +133,10 @@ class FormReservasi extends React.Component {
           console.log("data sudah terisi semua !");
           e.target.classList.toggle("loading");
           axios
-            .post("http://localhost:4000/reservasi", this.state.formData)
+            .post(
+              `${process.env.REACT_APP_API_URL}reservasi`,
+              this.state.formData
+            )
             .then((res) => {
               console.log(res);
               this.handleSendMessage(this.state.formData, "6285751080434");
@@ -143,8 +148,16 @@ class FormReservasi extends React.Component {
                   animateSucces: false,
                 });
               }, 4000);
-
               e.target.classList.toggle("loading");
+              this.setState({
+                redirect: (
+                  <Navigate
+                    to={`/reservasi/confirm/${res.data._id}`}
+                    state={this.state.formData}
+                    replace
+                  />
+                ),
+              });
             })
             .catch((err) => {
               console.log(err);
@@ -424,7 +437,7 @@ class FormReservasi extends React.Component {
                     >
                       <CardMenu
                         id={menu.id}
-                        page={"regis"}
+                        jumlah={menu.jumlah}
                         nama={menu.title}
                         harga={menu.harga}
                         img={menu.img}
@@ -446,33 +459,21 @@ class FormReservasi extends React.Component {
             <div className="col-span-1 justify-self-end">
               <button
                 type="button"
-                onClick={(e) => this.handleSendData(e)}
+                onClick={(e) => this.handleSendDataProps(e)}
                 className="btn btn-sm px-7 rounded-full shadow-xl text-white border-none bg-rishie-400 hover:bg-rishie-500 normal-case text-sm font-semibold "
               >
-                Kirim
+                Lanjut
               </button>
             </div>
           </div>
         </form>
+        {this.state.redirect !== null && this.state.redirect}
         <Notification
           animation={this.state.animateError}
-          color="red"
+          color={"#dc2626"}
+          textC={"#fee2e2"}
           icon={<TbAlertCircle />}
           pesan={"Heh ngawor, itu ada data yang belum diisi :)"}
-        />
-        <Notification
-          animation={this.state.animateSucces}
-          color="green"
-          icon={<AiOutlineCheckCircle />}
-          pesan={
-            "Reservasi Berhasil !, Silahkan lanjut ke Bagian Pembayaran yaa"
-          }
-        />
-        <Notification
-          animation={this.state.animateFail}
-          color="orange"
-          icon={<TbAlertCircle />}
-          pesan={"Heh ngapaiin, data kamu udah dimasukkin, gaboleh dobell :)"}
         />
       </div>
     );

@@ -29,21 +29,26 @@ export const CariReservasi = (props) => {
   };
 
   const handleSearchID = () => {
-    idRes.length !== 0
-      ? axios
-          .get(`http://localhost:4000/reservasi/${idRes}`)
-          .then((res) => {
-            console.log(res);
-            res.data.data ? console.log("data ada") : console.log("data tidak ada")
-            // setRes(res.data.data);
-            handleAlert(setSucces, 2000);
-          })
-          .catch((err) => {
-            console.log(err);
-            handleAlert(setErr, 2000);
-          })
-      : handleAlert(setUnfilled,2000)
+    if (idRes.length !== 0) {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}reservasi/${idRes}`)
+        .then((res) => {
+          console.log(res);
+          res.data ? console.log("data ada") : console.log("data tidak ada");
+          setRes(res.data);
+          handleAlert(setSucces, 2000);
+        })
+        .catch((err) => {
+          console.log(err);
+          setRes([]);
+          handleAlert(setErr, 2000);
+        });
+    } else {
+      handleAlert(setUnfilled, 2000);
+      setRes([]);
+    }
   };
+
   return (
     <LazyMotion features={domAnimation}>
       <m.div
@@ -113,19 +118,22 @@ export const CariReservasi = (props) => {
         </div>
         <Notification
           animation={animateSucces}
-          color={"green"}
+          color={"#16a34a"}
+          textC={"#dcfce7"}
           icon={<AiOutlineCheckCircle />}
           pesan={"Reservasi berhasil ditemukan!"}
         />
         <Notification
           animation={animateErr}
-          color={"red"}
+          color={"#dc2626"}
+          textC={"#fee2e2"}
           icon={<AiOutlineCheckCircle />}
           pesan={"Data Tidak ditemukan, pastikan ID reservasi anda benar!"}
         />
         <Notification
           animation={animateUnfilled}
-          color={"orange"}
+          color={"#ea580c"}
+          textC={"#fef9c3"}
           icon={<AiOutlineCheckCircle />}
           pesan={"Isi dulu ID yang mau dicari bwang :)"}
         />

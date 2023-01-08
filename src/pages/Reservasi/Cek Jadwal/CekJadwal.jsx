@@ -30,15 +30,16 @@ export const CekJadwal = (props) => {
   const handleSearchDate = (data) => {
     dateData.length !== 0
       ? axios
-          .get(`http://localhost:4000/reservasi?tanggal=${data}`)
+          .get(`${process.env.REACT_APP_API_URL}reservasi?tanggal=${data}`)
           .then((res) => {
             console.log(res);
             res.data.length !== 0
               ? handleAlert(setSucces, 2000)
               : handleAlert(setErr, 3500);
-            setRes(res.data.data);
+            setRes(res.data);
           })
           .catch((err) => {
+            setRes([]);
             console.log(err);
             handleAlert(setErr, 2000);
           })
@@ -101,7 +102,9 @@ export const CekJadwal = (props) => {
         </div>
         <div className="sm:w-[700px] container mx-auto space-y-4 mt-7">
           <h3 className="text-xl font-semibold text-center">
-            {reservationData.length !== 0 ? `List Reservasi tanggal ${dateData.slice(-2)}` : null}
+            {reservationData.length !== 0
+              ? `List Reservasi tanggal ${dateData.slice(-2)}`
+              : null}
           </h3>
           {reservationData.map((data, index) => {
             return (
@@ -117,13 +120,15 @@ export const CekJadwal = (props) => {
         </div>
         <Notification
           animation={animateSucces}
-          color={"green"}
+          color={"#16a34a"}
+          textC={"#dcfce7"}
           icon={<AiOutlineCheckCircle />}
           pesan={"Reservasi berhasil ditemukan!"}
         />
         <Notification
           animation={animateErr}
-          color={"blue"}
+          color={"#0284c7"}
+          textC={"#e0f2fe"}
           icon={<AiOutlineCheckCircle />}
           pesan={`Wah tanggal ${dateData.slice(
             -2
@@ -131,7 +136,8 @@ export const CekJadwal = (props) => {
         />
         <Notification
           animation={animateUnfilled}
-          color={"orange"}
+          color={"#ea580c"}
+          textC={"#fef9c3"}
           icon={<AiOutlineCheckCircle />}
           pesan={"Isi dulu Tanggal yang mau dicari bwang :)"}
         />

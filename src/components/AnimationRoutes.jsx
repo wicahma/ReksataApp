@@ -10,7 +10,14 @@ import { CariReservasi } from "../pages/Reservasi/Cari Reservasi/CariReservasi";
 import { CekJadwal } from "../pages/Reservasi/Cek Jadwal/CekJadwal";
 import { Bill } from "../pages/Reservasi/Bill";
 import { connect } from "react-redux";
-import { fetchAPI, getDataMenu, getDataSetup } from "../Store/Actions/handleAPIAction";
+import {
+  fetchAPI,
+  getDataMenu,
+  getDataSetup,
+} from "../Store/Actions/handleAPIAction";
+import Confirmation from "../pages/Reservasi/Confirm";
+import BillingOffline from "./Reservasi/BillingOffline";
+import BillingOnline from "./Reservasi/BillingOnline";
 
 function AnimationRoutes(props) {
   const checkerData = (data, path, method) => {
@@ -21,10 +28,10 @@ function AnimationRoutes(props) {
       props.dispatch(fetchAPI(path, method));
     }
   };
-  
+
   checkerData(props.dataMenu, "menus", getDataMenu);
   checkerData(props.dataSetup, "setups", getDataSetup);
-  
+
   const location = useLocation();
   return (
     <div className="px-3 sm:px-10 pb-20 pt-[4.7rem] sm:pt-20 bg-cultured-800 h-max">
@@ -71,10 +78,26 @@ function AnimationRoutes(props) {
             errorElement={"Keanya ada yang salah sama ketikanmu lah 🤣"}
           />
           <Route
-            path="/reservasi/bill"
-            element={<Bill />}
+            path="/reservasi/confirm/:id_res"
+            element={<Confirmation />}
             errorElement={"Keanya ada yang salah sama ketikanmu lah 🤣"}
           />
+          <Route
+            path="/pembayaran"
+            element={<Bill />}
+            errorElement={"Keanya ada yang salah sama ketikanmu lah 🤣"}
+          >
+            <Route
+              path="offline/:id"
+              element={<BillingOffline />}
+              errorElement={"Keanya ada yang salah sama ketikanmu lah 🤣"}
+            />
+            <Route
+              path="online/:id"
+              element={<BillingOnline />}
+              errorElement={"Keanya ada yang salah sama ketikanmu lah 🤣"}
+            />
+          </Route>
         </Routes>
       </AnimatePresence>
     </div>
