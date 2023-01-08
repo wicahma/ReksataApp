@@ -1,4 +1,3 @@
-
 # The Docker image that will be used to build your app
 image: node
 # Functions that should be executed before the build script is run
@@ -10,7 +9,7 @@ pages:
     paths:
       - node_modules/
   variables:
-    GIT_STRATEGY: none        # Do not clone git repo
+    GIT_STRATEGY: git clone https://gitlab.com/wicahma/uts-rpl.git
   script:
     # Rename the CRA `build` folder to `public`
     - npm install
