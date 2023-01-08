@@ -3,10 +3,7 @@
 image: node
 # Functions that should be executed before the build script is run
 before_script:
-  - npm i axios daisyui framer-motion react-dom
-    react-helmet-async react-icons react-multi-carousel react-redux react-responsive-carousel
-    react-router react-router-dom redux redux-thunk web-vitals react-scripts
-  - npm i -D tailwindcss postcss autoprefixer @tailwindcss/typography @tailwindcss/forms
+  - npm install
 pages:
   stage: deploy
   cache:
