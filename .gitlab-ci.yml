@@ -3,7 +3,7 @@
 image: node
 # Functions that should be executed before the build script is run
 before_script:
-  - npm install
+  - ls
 pages:
   stage: deploy
   cache:
