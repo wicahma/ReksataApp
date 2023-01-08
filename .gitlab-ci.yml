@@ -3,7 +3,7 @@
 image: node
 # Functions that should be executed before the build script is run
 before_script:
-  - ls
+  - ls -a
 pages:
   stage: deploy
   cache:
@@ -13,9 +13,9 @@ pages:
     GIT_STRATEGY: none        # Do not clone git repo
   script:
     # Rename the CRA `build` folder to `public`
-    - npm install      
+    - npm install
     - npm run-script build
-    - mv build public 
+    - mv build public
   artifacts:
     paths:
       - public
