@@ -12,7 +12,7 @@ const BillingOffline = (props) => {
   const { id } = useParams();
   const [bill, setBill] = useState();
   useEffect(() => {
-    console.log(id);
+    // console.log(id);
     axios
       .get(`${process.env.REACT_APP_API_URL}bill/${id}`)
       .then((res) => setBill(res.data))

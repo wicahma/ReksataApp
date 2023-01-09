@@ -53,9 +53,9 @@ export const ListMenu = (props) => {
         >
           {props.dataMenu.map((data) => {
             return (
-              <m.div key={data.id} variants={cardMenuVariants}>
+              <m.div key={data._id} variants={cardMenuVariants}>
                 <CardMenu
-                  id={data.id}
+                  id={data._id}
                   judul={data.jenis === true ? "Makanan" : "Minuman"}
                   nama={data.title}
                   harga={data.harga}

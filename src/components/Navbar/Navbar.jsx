@@ -79,7 +79,7 @@ const Navbar = (props) => {
                 name="cariID"
                 type="input"
                 placeholder="Cari ID Reservasi"
-                onKeyDown={(e) => console.log(e)}
+                // onKeyDown={(e) => }
                 className="input input-sm input-ghost w-[100%] placeholder:w-min font-light placeholder:text-sm placeholder:text-cultured-400 border-none "
               />
             </form>

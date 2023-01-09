@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { TbAlertCircle } from "react-icons/tb";
-import { useLocation, useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Notification from "../Notification/Notification";
 import Table from "./Table";
 
@@ -14,7 +14,6 @@ const usePesanan = (id) => {
       .get(`${process.env.REACT_APP_API_URL}reservasi/${id}`)
       .then((res) => {
         setPesanan(res.data);
-        console.log(res.data.makananID);
         // handleAlert(animateSucces, 1500);
         // e.target.classList.toggle("loading");
       })
@@ -29,17 +28,17 @@ const usePesanan = (id) => {
 
 const Konfirmasi = (props) => {
   const params = useParams();
+  const [jaminan, setJaminan] = useState(100000);
+  const [ruangan, setRuangan] = useState(150000);
+  const [jasa, setJasa] = useState(50000);
   const tabelMakanan = useRef();
   const dataPesanan = usePesanan(params.id_res);
-  const location = useLocation();
   const navigate = useNavigate();
-  console.log(dataPesanan);
   const [method, setMethod] = useState();
   const [total, setTotal] = useState(0);
   const [animateSucces, setSucces] = useState(false);
   const [animateErr, setErr] = useState(false);
   const [animateUnfilled, setUnfilled] = useState(false);
-  // console.log("ini adalah lokasi dari data yang ada ", params);
 
   useEffect(() => {
     const makanan = tabelMakanan.current.childNodes;
@@ -47,7 +46,7 @@ const Konfirmasi = (props) => {
     for (const [key, value] of Object.entries(makanan)) {
       jumlah += Number(value.id);
     }
-    setTotal(jumlah);
+    setTotal(jumlah + jaminan + ruangan + jasa);
   }, [dataPesanan]);
 
   const handleAlert = (set, time) => {
@@ -58,18 +57,17 @@ const Konfirmasi = (props) => {
   };
 
   const handleSendData = (data, e) => {
-    console.log(params.id_res);
+    const bill = {
+      total_harga: total,
+      jaminan: jaminan,
+      s_pembayaran: "Belum Bayar",
+      s_reservasi: "Booked",
+      metode_pembayaran: data,
+    };
     e.target.classList.toggle("loading");
     axios
-      .post(`${process.env.REACT_APP_API_URL}bill/${params.id_res}`, {
-        total_harga: total,
-        jaminan: 100000,
-        s_pembayaran: "Belum Bayar",
-        s_reservasi: "Booked",
-        metode_pembayaran: data,
-      })
+      .post(`${process.env.REACT_APP_API_URL}bill/${params.id_res}`, bill)
       .then((res) => {
-        console.log(res);
         handleAlert(setSucces, 1500);
         e.target.classList.toggle("loading");
         method === "Online"
@@ -124,31 +122,36 @@ const Konfirmasi = (props) => {
           <h5 className="font-medium underline text-lg">Makanan</h5>
           <table className="w-full border-separate border-spacing-y-2">
             <tbody className="w-[650px]" ref={tabelMakanan}>
-              {dataPesanan !== undefined
-                ? dataPesanan.makananID.map((data) => {
-                    return (
-                      <Table
-                        jumlah={data.jumlah}
-                        judul={data.title}
-                        harga={data.harga * 1000}
-                      />
-                    );
-                  })
-                : "Loading..."}
+              {dataPesanan !== undefined ? (
+                dataPesanan.makananID.map((data) => {
+                  return (
+                    <Table
+                      key={data._id}
+                      jumlah={data.jumlah}
+                      judul={data.title}
+                      harga={data.harga * 1000}
+                    />
+                  );
+                })
+              ) : (
+                <tr>
+                  <td>Loading</td>
+                </tr>
+              )}
             </tbody>
           </table>
           <h5 className="font-medium underline text-lg mt-4">Reservasi</h5>
           <div className="">
             <div className="flex justify-between">
-              <p>Uang jaminan</p> <p className="w-[170px]">Rp. 100000,00-</p>
+              <p>Uang jaminan</p> <p className="w-[170px]">Rp. {jaminan},00-</p>
             </div>
             <div className="flex justify-between">
               <p>Sewa Ruangan</p>
-              <p className="w-[170px]">Rp. 50000,00-</p>
+              <p className="w-[170px]">Rp. {ruangan},00-</p>
             </div>
             <div className="flex justify-between">
               <p>Jasa</p>
-              <p className="w-[170px]">Rp. 10000,00-</p>
+              <p className="w-[170px]">Rp. {jasa},00-</p>
             </div>
             <p></p>
           </div>

@@ -32,7 +32,6 @@ export const CekJadwal = (props) => {
       ? axios
           .get(`${process.env.REACT_APP_API_URL}reservasi?tanggal=${data}`)
           .then((res) => {
-            console.log(res);
             res.data.length !== 0
               ? handleAlert(setSucces, 2000)
               : handleAlert(setErr, 3500);

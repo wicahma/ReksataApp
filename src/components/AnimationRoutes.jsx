@@ -21,10 +21,7 @@ import BillingOnline from "./Reservasi/BillingOnline";
 
 function AnimationRoutes(props) {
   const checkerData = (data, path, method) => {
-    if (data.length > 0) {
-      console.log("data sudah ditambahkan !");
-    } else {
-      console.log("data sedang ditambahkan !");
+    if (data.length <= 0) {
       props.dispatch(fetchAPI(path, method));
     }
   };

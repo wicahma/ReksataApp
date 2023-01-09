@@ -3,9 +3,7 @@ import { TextHeaderComponent } from "../TextHeaderComponent";
 import { ListMenu } from "./ListMenu";
 import { ImArrowDown2 } from "react-icons/im";
 import { LazyMotion, domAnimation, m } from "framer-motion";
-import axios from "axios";
 import { connect } from "react-redux";
-import { fetchAPI, getDataMenu } from "../../Store/Actions/handleAPIAction";
 
 class Container extends React.Component {
   constructor(props) {
@@ -25,21 +23,18 @@ class Container extends React.Component {
           tampilMakanan: "block",
           tampilMinuman: "hidden",
         });
-        console.log("ini makanan");
         break;
       case "Minuman":
         this.setState({
           tampilMakanan: "hidden",
           tampilMinuman: "block",
         });
-        console.log("ini minuman");
         break;
       default:
         this.setState({
           tampilMakanan: "block",
           tampilMinuman: "block",
         });
-        console.log("ini semua");
         break;
     }
   };
@@ -70,7 +65,7 @@ class Container extends React.Component {
   };
 
   componentDidMount() {
-    console.log("komponent mount");
+    // console.log("komponent mount");
     this.handleInputDataMenu(this.props.dataMenu);
   }
 

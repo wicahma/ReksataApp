@@ -33,8 +33,7 @@ export const CariReservasi = (props) => {
       axios
         .get(`${process.env.REACT_APP_API_URL}reservasi/${idRes}`)
         .then((res) => {
-          console.log(res);
-          res.data ? console.log("data ada") : console.log("data tidak ada");
+          // res.data ? console.log("data ada") : console.log("data tidak ada");
           setRes(res.data);
           handleAlert(setSucces, 2000);
         })

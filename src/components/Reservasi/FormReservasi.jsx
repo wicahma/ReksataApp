@@ -4,7 +4,6 @@ import { CardMenu } from "../MenuComponents/CardMenu";
 import { connect } from "react-redux";
 import axios from "axios";
 import { TbAlertCircle } from "react-icons/tb";
-import { AiOutlineCheckCircle } from "react-icons/ai";
 import Notification from "../Notification/Notification";
 import { Navigate } from "react-router";
 
@@ -35,56 +34,40 @@ class FormReservasi extends React.Component {
   handleDeleteList = (data) => {
     data.stopPropagation();
     const dataNew = this.state.selectedMenu.filter(
-      (menu, index) => index != data.target.id
+      (menu, index) => index !== data.target.id
     );
-    this.setState(
-      {
-        selectedMenu: dataNew,
-      },
-      console.log(this.state.selectedMenu)
-    );
+    this.setState({
+      selectedMenu: dataNew,
+    });
   };
-
-  componentDidUpdate() {
-    console.log("update baru saja terjadi");
-  }
 
   handleOnChangeMenu = (e) => {
     let value = e.target.value;
-    let dataMenu = this.props.dataMenu.find((menu) => menu._id == value);
+    let dataMenu = this.props.dataMenu.find((menu) => menu._id === value);
     const data = this.state.selectedMenu.findIndex(
       (menu) => menu._id === dataMenu._id
     );
-    console.log("ini adalah datanya", data);
     if (data !== -1) {
-      console.log("Datanya sebelumnya sudah ada");
       let menus = [...this.state.selectedMenu];
       let menu = { ...menus[data] };
       menu.jumlah++;
       menus[data] = menu;
-      this.setState(
-        {
-          selectedMenu: menus,
-        },
-        () => console.log(this.state.selectedMenu)
-      );
+      this.setState({
+        selectedMenu: menus,
+      });
     } else {
-      console.log("data dimasukkan", data);
-      this.setState(
-        {
-          selectedMenu: [
-            ...this.state.selectedMenu,
-            {
-              harga: dataMenu.harga,
-              img: dataMenu.img,
-              jumlah: 1,
-              title: dataMenu.title,
-              _id: dataMenu._id,
-            },
-          ],
-        },
-        () => console.log(this.state.selectedMenu)
-      );
+      this.setState({
+        selectedMenu: [
+          ...this.state.selectedMenu,
+          {
+            harga: dataMenu.harga,
+            img: dataMenu.img,
+            jumlah: 1,
+            title: dataMenu.title,
+            _id: dataMenu._id,
+          },
+        ],
+      });
     }
     e.target.value = "";
   };
@@ -95,12 +78,9 @@ class FormReservasi extends React.Component {
     let newForm = { ...this.state.formData };
     newForm[id] = value;
     // newForm["id"] = `reks${new Date().getTime().toString()}`;
-    this.setState(
-      {
-        formData: newForm,
-      },
-      () => console.log("udah keganti kok, santuy..")
-    );
+    this.setState({
+      formData: newForm,
+    });
   };
 
   handleShowMenu = (e) => {
@@ -108,12 +88,9 @@ class FormReservasi extends React.Component {
       ? this.menuForm.current.classList.replace("hidden", "grid")
       : this.menuForm.current.classList.replace("grid", "hidden");
 
-    this.setState(
-      {
-        selectedMenu: [],
-      },
-      () => console.log(this.state.selectedMenu)
-    );
+    this.setState({
+      selectedMenu: [],
+    });
   };
 
   handleSendDataProps = (e) => {
@@ -128,9 +105,7 @@ class FormReservasi extends React.Component {
         formData: newForm,
       },
       () => {
-        console.log("Ini adaalh form hasil", this.state.formData);
         if (non) {
-          console.log("data sudah terisi semua !");
           e.target.classList.toggle("loading");
           axios
             .post(
@@ -138,8 +113,6 @@ class FormReservasi extends React.Component {
               this.state.formData
             )
             .then((res) => {
-              console.log(res);
-              this.handleSendMessage(this.state.formData, "6285751080434");
               this.setState({
                 animateSucces: true,
               });
@@ -152,7 +125,7 @@ class FormReservasi extends React.Component {
               this.setState({
                 redirect: (
                   <Navigate
-                    to={`/reservasi/confirm/${res.data._id}`}
+                    to={`/reservasi/confirm/${res.data.id}`}
                     state={this.state.formData}
                     replace
                   />
@@ -160,7 +133,6 @@ class FormReservasi extends React.Component {
               });
             })
             .catch((err) => {
-              console.log(err);
               this.setState({
                 animateFail: true,
               });
@@ -172,7 +144,6 @@ class FormReservasi extends React.Component {
               e.target.classList.toggle("loading");
             });
         } else {
-          console.log("Ada data Yang belum terisi");
           this.setState({
             animateError: true,
           });
@@ -187,8 +158,6 @@ class FormReservasi extends React.Component {
   };
 
   render() {
-    // console.log(this.props.dataMenu)
-    // console.log(this.props.dataSetup)
     return (
       <div className="sm:w-[700px] container mx-auto">
         <div className=" bg-cultured-500 shadow-xl rounded-xl p-5 mt-10">
@@ -256,6 +225,7 @@ class FormReservasi extends React.Component {
               type="date"
               placeholder=" "
               nameLabel="Tangal Penggunaan"
+              min={0}
               mustFilled={true}
               classPlus="col-span-2"
               handleOnChange={(e) => this.handleOnChange(e)}

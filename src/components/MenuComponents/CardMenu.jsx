@@ -3,7 +3,6 @@ import { useLocation } from "react-router";
 
 export const CardMenu = (props) => {
   const location = useLocation();
-  console.log(location);
   return (
     <div className="list-menu" key={props.id}>
       <div

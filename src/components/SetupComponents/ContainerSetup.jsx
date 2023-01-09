@@ -33,7 +33,6 @@ const setupVariants = {
 
 class ContainerSetup extends React.Component {
   render() {
-    // console.log("ini adalah props dari data setup",this.props.dataSetup);
     return (
       <Fragment>
         <div className="w-full flex flex-row ">
@@ -55,7 +54,7 @@ class ContainerSetup extends React.Component {
           >
             {this.props.dataSetup.map((data) => {
               return (
-                <m.div key={data.id} variants={setupVariants}>
+                <m.div key={data._id} variants={setupVariants}>
                   <CardSetup namaSetup={data.title} imgSetup={data.img} />
                 </m.div>
               );
