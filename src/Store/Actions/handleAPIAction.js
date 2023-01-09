@@ -6,7 +6,7 @@ export const GET_DATA_FAIL = "GET_DATA_FAIL";
 export const GET_DATA_MENU = "GET_DATA_MENU";
 export const GET_DATA_SETUP = "GET_DATA_SETUP";
 
-const rootPath = "http://localhost:5000";
+const rootPath = process.env.REACT_APP_API_URL;
 
 export const getData = () => ({
   type: GET_DATA,
@@ -37,7 +37,7 @@ export const fetchAPI = (dataPath, func) => {
   return (dispatch) => {
     dispatch(getData());
     axios
-      .get(`${rootPath}/${dataPath}`)
+      .get(`${rootPath}${dataPath}`)
       .then((res) => {
         dispatch(func(res.data));
       })
