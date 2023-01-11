@@ -1,4 +1,7 @@
-# Getting Started with Create React App
+# Web Application interface untuk website Reksata
+ini adalah sebuah project kuliah yang dibuat berdasarkan metode pengembangan Agile Software Development
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
